@@ -7,12 +7,16 @@ ui <- fluidPage(
     titlePanel("Genetic Algorithm for Function Optimization"),
     sidebarLayout(
         sidebarPanel(
-            textInput("func", "Function (in terms of x):", default_func),
-            numericInput("start", "Interval Start:", default_start),
-            numericInput("end", "Interval End:", default_end),
-            numericInput("popSize", "Population Size:", default_popSize),
-            numericInput("maxGen", "Max Generations:", default_maxGen),
-            numericInput("mutationRate", "Mutation Rate:", default_mutationRate),
+            textInput("func", "Function to Optimize", value = default_func),
+            numericInput("start", "Start", value = default_start),
+            numericInput("end", "End", value = default_end),
+            numericInput("popSize", "Population Size", value = default_popSize),
+            numericInput("maxGen", "Max Generations", value = default_maxGen),
+            numericInput("mutationRate", "Mutation Rate", value = default_mutationRate),
+            selectInput("selection", "Selection Method", choices = c("gareal_lrSelection", "gareal_rwSelection", "gareal_tourSelection")),
+            selectInput("crossover", "Crossover Method", choices = c("gareal_blxCrossover", "gareal_spCrossover", "gareal_oxCrossover")),
+            selectInput("mutation", "Mutation Method", choices = c("gareal_raMutation", "gareal_nraMutation", "gareal_pmMutation")),
+            
             div(style = "display: flex; justify-content: center; align-items: center; height: 50px;",
                 actionButton("run", "Run Genetic Algorithm")
             )

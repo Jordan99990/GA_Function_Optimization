@@ -5,10 +5,11 @@ Simple project using R to showcase genetic algorithms to find the optima of cust
 ## TODO List
 
 - [X] R script + genetic algorithm for custom functions.
-- [ ] Implement selecting different crossover methods.
-- [ ] Implement selecting different mutation methods.
-- [ ] Implement selecting different selection methods.
-- [ ] Support for more advanced functions (with 3D graphs e.t.c)
+- [X] Implement selecting different crossover methods.
+- [X] Implement selecting different mutation methods.
+- [X] Implement selecting different selection methods.
+- [] Support for more advanced functions (with 3D graphs e.t.c)
+  - [ ] Plotly for 3D charts
 
 
 ## Screenshots

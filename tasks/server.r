@@ -12,6 +12,10 @@ server <- function(input, output) {
         maxGen <- input$maxGen
         mutationRate <- input$mutationRate
 
+        selection_method <- match.fun(input$selection)
+        crossover_method <- match.fun(input$crossover)
+        mutation_method <- match.fun(input$mutation)
+
         if (!is.finite(start) || !is.finite(end)) {
             output$error <- renderText("Error: 'start' and 'end' must be finite values.")
             return()
@@ -29,8 +33,14 @@ server <- function(input, output) {
 
         start_time <- Sys.time()
         ga_results <- tryCatch({
-            run_genetic_algorithm(func, start, end, popSize, maxGen, mutationRate)
+            run_genetic_algorithm(
+                func, start, end, popSize, maxGen, mutationRate,
+                selection = selection_method,
+                crossover = crossover_method,
+                mutation = mutation_method
+            )
         }, error = function(e) {
+            print(e)
             NULL
         })
         end_time <- Sys.time()
@@ -56,7 +66,7 @@ server <- function(input, output) {
         })
 
         output$executionTime <- renderText({
-            paste("Execution Time:", ga_results$execution_time)
+            paste("Execution Time:", difftime(end_time, start_time, units = "secs"))
         })
 
         output$worstSolution <- renderText({

@@ -1,4 +1,4 @@
-run_genetic_algorithm <- function(func, start, end, popSize, maxGen, mutationRate) {
+run_genetic_algorithm <- function(func, start, end, popSize, maxGen, mutationRate, selection = gareal_lrSelection, crossover = gareal_blxCrossover, mutation = gareal_raMutation) {
     f <- function(x) eval(parse(text = func))
     
     start_time <- Sys.time()
@@ -10,7 +10,10 @@ run_genetic_algorithm <- function(func, start, end, popSize, maxGen, mutationRat
         upper = end,
         popSize = popSize,
         maxiter = maxGen,
-        pmutation = mutationRate
+        pmutation = mutationRate,
+        selection = selection,
+        crossover = crossover,
+        mutation = mutation
     )
     
     ga_min <- ga(
@@ -20,7 +23,10 @@ run_genetic_algorithm <- function(func, start, end, popSize, maxGen, mutationRat
         upper = end,
         popSize = popSize,
         maxiter = maxGen,
-        pmutation = mutationRate
+        pmutation = mutationRate,
+        selection = selection,
+        crossover = crossover,
+        mutation = mutation
     )
     
     end_time <- Sys.time()
