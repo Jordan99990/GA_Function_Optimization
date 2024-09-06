@@ -43,18 +43,12 @@ run_genetic_algorithm <- function(func, start, end, popSize, maxGen, mutationRat
     max_df <- data.frame(Generation = 1:length(max_fitness_values), Fitness = max_fitness_values)
     min_df <- data.frame(Generation = 1:length(min_fitness_values), Fitness = min_fitness_values)
     
-    max_plot <- ggplot(max_df, aes(x = Generation, y = Fitness)) +
-        geom_line(color = "blue") +
-        ggtitle("Maximization Fitness Over Generations") +
-        xlab("Generation") +
-        ylab("Fitness")
+    max_plot <- plot_ly(max_df, x = ~Generation, y = ~Fitness, type = 'scatter', mode = 'lines', line = list(color = 'blue')) %>%
+        layout(title = "Maximization Fitness Over Generations", xaxis = list(title = "Generation"), yaxis = list(title = "Fitness"))
     
-    min_plot <- ggplot(min_df, aes(x = Generation, y = Fitness)) +
-        geom_line(color = "red") +
-        ggtitle("Minimization Fitness Over Generations") +
-        xlab("Generation") +
-        ylab("Fitness")
-    
+    min_plot <- plot_ly(min_df, x = ~Generation, y = ~Fitness, type = 'scatter', mode = 'lines', line = list(color = 'red')) %>%
+        layout(title = "Minimization Fitness Over Generations", xaxis = list(title = "Generation"), yaxis = list(title = "Fitness"))
+
     list(
         results = data.frame(
             Type = c("Maximum", "Minimum"),
@@ -67,9 +61,9 @@ run_genetic_algorithm <- function(func, start, end, popSize, maxGen, mutationRat
         execution_time = execution_time,
         worst_solution = min_value,
         worst_fitness = min_fitness,
-        max_plot = max_plot,
-        min_plot = min_plot,
         max_fitness_over_generations = max_df,
-        min_fitness_over_generations = min_df
+        min_fitness_over_generations = min_df,
+        max_plot = max_plot,
+        min_plot = min_plot
     )
 }

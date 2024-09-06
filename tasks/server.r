@@ -1,5 +1,5 @@
 library(shiny)
-library(ggplot2)
+library(plotly)
 
 source("tasks/genetic_algorithms.r")
 
@@ -23,12 +23,11 @@ server <- function(input, output) {
 
         f <- function(x) eval(parse(text = func))
 
-        output$functionPlot <- renderPlot({
+        output$functionPlot <- renderPlotly({
             x <- seq(start, end, length.out = 100)
             y <- sapply(x, f)
-            ggplot(data.frame(x, y), aes(x, y)) +
-                geom_line() +
-                ggtitle("Function Plot")
+            plot_ly(x = ~x, y = ~y, type = 'scatter', mode = 'lines') %>%
+                layout(title = "Function Plot")
         })
 
         start_time <- Sys.time()
@@ -85,8 +84,14 @@ server <- function(input, output) {
             paste("Min Fitness Over Generations:", toString(ga_results$min_fitness_over_generations$Fitness))
         })
 
-        output$gaPlot <- renderPlot({
-            gridExtra::grid.arrange(ga_results$max_plot, ga_results$min_plot, ncol = 1)
+        output$maxFitnessPlot <- renderPlotly({
+            plot_ly(data = ga_results$max_fitness_over_generations, x = ~Generation, y = ~Fitness, type = 'scatter', mode = 'lines') %>%
+                layout(title = "Max Fitness Over Generations")
+        })
+
+        output$minFitnessPlot <- renderPlotly({
+            plot_ly(data = ga_results$min_fitness_over_generations, x = ~Generation, y = ~Fitness, type = 'scatter', mode = 'lines') %>%
+                layout(title = "Min Fitness Over Generations")
         })
     })
 }

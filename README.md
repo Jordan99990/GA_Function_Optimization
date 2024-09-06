@@ -8,7 +8,8 @@ Simple project using R to showcase genetic algorithms to find the optima of cust
 - [X] Implement selecting different crossover methods.
 - [X] Implement selecting different mutation methods.
 - [X] Implement selecting different selection methods.
-- [] Support for more advanced functions (with 3D graphs e.t.c)
+- [ ] Support for more advanced functions (with 3D graphs e.t.c)
+  - [ ] With multiple variables!
   - [ ] Plotly for 3D charts
 
 

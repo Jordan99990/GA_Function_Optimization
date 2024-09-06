@@ -1,5 +1,6 @@
 library(shiny)
 library(shinythemes)
+library(plotly)
 source("tasks/global.r")
 
 ui <- fluidPage(
@@ -22,8 +23,9 @@ ui <- fluidPage(
             )
         ),
         mainPanel(
-            plotOutput("functionPlot", height = "500px"), 
-            plotOutput("gaPlot", height = "500px"),        
+            plotlyOutput("functionPlot", height = "500px"), 
+            plotlyOutput("maxFitnessPlot", height = "500px"),        
+            plotlyOutput("minFitnessPlot", height = "500px"),        
             div(class = "table-container",
                 tableOutput("resultsTable")
             ),
