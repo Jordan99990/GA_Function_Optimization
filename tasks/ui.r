@@ -9,10 +9,8 @@ ui <- fluidPage(
     sidebarLayout(
         sidebarPanel(
             textInput("func", "Function to Optimize", value = default_func),
-            div(style = "display: flex; justify-content: center; align-items: center; height: 50px;",
-                actionButton("addVar", "Add Variable"),
-            ),
-            uiOutput("variableInputs"),
+            numericInput("startInterval", "Start of Interval", value = default_startInterval),
+            numericInput("endInterval", "End of Interval", value = default_endInterval),
             numericInput("popSize", "Population Size", value = default_popSize),
             numericInput("maxGen", "Max Generations", value = default_maxGen),
             numericInput("mutationRate", "Mutation Rate", value = default_mutationRate),
@@ -22,7 +20,7 @@ ui <- fluidPage(
             
             div(style = "display: flex; justify-content: center; align-items: center; height: 50px;",
                 actionButton("run", "Run Genetic Algorithm")
-            ),
+            )
         ),
         mainPanel(
             plotlyOutput("functionPlot", height = "500px"), 

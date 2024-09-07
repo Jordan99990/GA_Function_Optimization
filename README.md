@@ -1,6 +1,6 @@
 # Genetic Optimization for function
 
-Simple project using R to showcase genetic algorithms to find the optima of custom math functions (+ their graphs).
+Simple project using R to showcase genetic algorithms to find the optima of math functions (1 variable + their graph)
 
 ## TODO List
 
@@ -8,10 +8,6 @@ Simple project using R to showcase genetic algorithms to find the optima of cust
 - [X] Implement selecting different crossover methods.
 - [X] Implement selecting different mutation methods.
 - [X] Implement selecting different selection methods.
-- [ ] Support for more advanced functions (with 3D graphs e.t.c)
-  - [ ] With multiple variables!
-  - [ ] Plotly for 3D charts
-
 
 ## Screenshots
 
