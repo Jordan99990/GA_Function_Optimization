@@ -3,11 +3,9 @@ library(plotly)
 
 source("tasks/genetic_algorithms.r")
 
-server <- function(input, output) {
+server <- function(input, output, session) {
     observeEvent(input$run, {
         func <- input$func
-        start <- input$start
-        end <- input$end
         popSize <- input$popSize
         maxGen <- input$maxGen
         mutationRate <- input$mutationRate
@@ -16,15 +14,26 @@ server <- function(input, output) {
         crossover_method <- match.fun(input$crossover)
         mutation_method <- match.fun(input$mutation)
 
-        if (!is.finite(start) || !is.finite(end)) {
-            output$error <- renderText("Error: 'start' and 'end' must be finite values.")
+        # Collect variable inputs dynamically
+        variables <- list()
+        for (i in 1:input$addVar) {
+            var_id <- paste0("var", i)
+            start_id <- paste0("start", i)
+            end_id <- paste0("end", i)
+            if (!is.null(input[[var_id]]) && !is.null(input[[start_id]]) && !is.null(input[[end_id]])) {
+                variables[[input[[var_id]]]] <- c(input[[start_id]], input[[end_id]])
+            }
+        }
+
+        if (length(variables) == 0) {
+            output$error <- renderText("Error: Please add at least one variable.")
             return()
         }
 
         f <- function(x) eval(parse(text = func))
 
         output$functionPlot <- renderPlotly({
-            x <- seq(start, end, length.out = 100)
+            x <- seq(variables[[1]][1], variables[[1]][2], length.out = 100)
             y <- sapply(x, f)
             plot_ly(x = ~x, y = ~y, type = 'scatter', mode = 'lines') %>%
                 layout(title = "Function Plot")
@@ -33,7 +42,7 @@ server <- function(input, output) {
         start_time <- Sys.time()
         ga_results <- tryCatch({
             run_genetic_algorithm(
-                func, start, end, popSize, maxGen, mutationRate,
+                func, variables, popSize, maxGen, mutationRate,
                 selection = selection_method,
                 crossover = crossover_method,
                 mutation = mutation_method
@@ -92,6 +101,30 @@ server <- function(input, output) {
         output$minFitnessPlot <- renderPlotly({
             plot_ly(data = ga_results$min_fitness_over_generations, x = ~Generation, y = ~Fitness, type = 'scatter', mode = 'lines') %>%
                 layout(title = "Min Fitness Over Generations")
+        })
+    })
+
+    observeEvent(input$addVar, {
+        var_id <- paste0("var", input$addVar)
+        start_id <- paste0("start", input$addVar)
+        end_id <- paste0("end", input$addVar)
+        delete_id <- paste0("delete", input$addVar)
+        row_id <- paste0("row", input$addVar)
+        
+        insertUI(
+            selector = "#variableInputs",
+            ui = tags$div(
+                id = row_id,
+                style = "display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;",
+                textInput(var_id, "Variable (e.g., y)", width = "25%"),
+                numericInput(start_id, "Start of Interval", value = 0, width = "25%"),
+                numericInput(end_id, "End of Interval", value = 1, width = "25%"),
+                actionButton(delete_id, "X", style = "background-color: red; color: white;")
+            )
+        )
+        
+        observeEvent(input[[delete_id]], {
+            removeUI(selector = paste0("#", row_id))
         })
     })
 }

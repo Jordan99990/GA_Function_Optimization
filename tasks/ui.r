@@ -9,8 +9,10 @@ ui <- fluidPage(
     sidebarLayout(
         sidebarPanel(
             textInput("func", "Function to Optimize", value = default_func),
-            numericInput("start", "Start", value = default_start),
-            numericInput("end", "End", value = default_end),
+            div(style = "display: flex; justify-content: center; align-items: center; height: 50px;",
+                actionButton("addVar", "Add Variable"),
+            ),
+            uiOutput("variableInputs"),
             numericInput("popSize", "Population Size", value = default_popSize),
             numericInput("maxGen", "Max Generations", value = default_maxGen),
             numericInput("mutationRate", "Mutation Rate", value = default_mutationRate),
@@ -20,7 +22,7 @@ ui <- fluidPage(
             
             div(style = "display: flex; justify-content: center; align-items: center; height: 50px;",
                 actionButton("run", "Run Genetic Algorithm")
-            )
+            ),
         ),
         mainPanel(
             plotlyOutput("functionPlot", height = "500px"), 
@@ -48,12 +50,9 @@ ui <- fluidPage(
                     padding: 10px;
                     border: 1px solid #ddd;
                 }
-                th {
-                    background-color: #555;
-                }
             ")),
 
-            fluidRow(
+             fluidRow(
                 column(12,
                     wellPanel(
                         h4("Best Fitness"),
