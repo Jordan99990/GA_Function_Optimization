@@ -52,6 +52,7 @@ ui <- fluidPage(
                     background-color: #555;
                 }
             ")),
+
             fluidRow(
                 column(12,
                     wellPanel(
@@ -74,14 +75,16 @@ ui <- fluidPage(
                         h4("Worst Fitness"),
                         textOutput("worstFitness")
                     ),
-                    wellPanel(
-                        h4("Max Fitness Over Generations"),
-                        textOutput("maxFitnessOverGenerations")
-                    ),
-                    wellPanel(
-                        h4("Min Fitness Over Generations"),
-                        textOutput("minFitnessOverGenerations")
-                    )
+                           div(style = "display: flex; justify-content: space-between;",
+                            wellPanel(
+                                h4("Max Fitness Over Generations"),
+                                textOutput("maxFitnessOverGenerations")
+                            ),
+                            wellPanel(
+                                h4("Min Fitness Over Generations"),
+                                textOutput("minFitnessOverGenerations")
+                            )
+                        )
                 )
             )
         )
